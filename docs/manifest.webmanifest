@@ -1,0 +1,18 @@
+{
+  "name": "Ship RF Audit — Web Logger",
+  "short_name": "Ship RF Audit",
+  "description": "Manual network survey notes and direct download of Ship RF Audit Android Wi-Fi scanner.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07101c",
+  "theme_color": "#08111e",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
