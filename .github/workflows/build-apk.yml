@@ -60,11 +60,12 @@ jobs:
 
       - name: Add APK to repository for alternative direct download
         run: |
-          mkdir -p downloads
+          mkdir -p downloads docs
           cp app/build/outputs/apk/debug/app-debug.apk downloads/ShipRFAudit.apk
+          cp app/build/outputs/apk/debug/app-debug.apk docs/ShipRFAudit.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/ShipRFAudit.apk
+          git add downloads/ShipRFAudit.apk docs/ShipRFAudit.apk
           if ! git diff --cached --quiet; then
             git commit -m "Publish installable APK for Android download"
             git push
