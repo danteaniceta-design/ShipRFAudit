@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08111e">
+  <meta name="description" content="Ship RF Audit: Android Wi-Fi survey and private browser-based observation log for authorized shipboard checks.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>Ship RF Audit | Android APK + Web Logger</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07101c;--panel:#101f31;--panel2:#172b40;--line:#2a3b4c;--text:#f2f7ff;--muted:#a5b6ca;--mint:#66e4c8;--mint2:#b0f8e4;--amber:#ffc47a;--shadow:0 18px 60px #0005}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(ellipse 80% 35% at 85% -10%,#183f48 0%,transparent 75%),var(--bg);line-height:1.5}
+    a{color:inherit}
+    button,input{font:inherit}
+    .wrap{max-width:1120px;margin:auto;padding:0 24px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid #ffffff12}
+    .brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-size:15px;font-weight:800;letter-spacing:.2px}
+    .brand-logo{width:36px;height:36px;background:#163b3c;border:1px solid #4fa99b66;border-radius:11px;display:grid;place-items:center;color:var(--mint)}
+    nav{display:flex;align-items:center;gap:25px;font-size:13px;color:var(--muted)}
+    nav a{text-decoration:none}nav a:hover{color:var(--mint)}
+    .hero{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:50px;padding:80px 0 68px}
+    .eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:var(--mint);display:inline-flex;align-items:center;gap:10px}
+    .dot{display:inline-block;width:7px;height:7px;background:var(--mint);border-radius:50%;box-shadow:0 0 18px var(--mint)}
+    h1{font-size:clamp(37px,5.2vw,64px);line-height:1.07;letter-spacing:-2.4px;margin:21px 0 22px;font-weight:850}
+    h1 span{color:var(--mint)}
+    .lede{font-size:17px;color:var(--muted);max-width:510px;margin:0 0 27px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:13px 21px;border-radius:12px;background:var(--mint);border:1px solid transparent;color:#071a21;text-decoration:none;font-size:14px;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px #55e4c540}
+    .btn.secondary{background:#152a3c;color:var(--text);border:1px solid #496473}
+    .hero-foot{display:flex;gap:15px;margin-top:24px;color:#b5c6d0;font-size:12px;flex-wrap:wrap}
+    .hero-foot span{display:inline-flex;align-items:center;gap:6px}
+    .tick{color:var(--mint);font-weight:900}
+    .phone-outer{max-width:370px;margin:0 auto;position:relative}
+    .phone-outer:before{content:"";position:absolute;inset:15% -30%;background:#3cefc222;filter:blur(80px);border-radius:50%}
+    .phone{position:relative;background:linear-gradient(160deg,#1c334a,#0c182a);border:7px solid #1f3040;border-radius:40px;padding:23px 20px 21px;box-shadow:var(--shadow),inset 0 0 0 1px #ffffff20;min-height:540px}
+    .notch{height:17px;width:105px;margin:-23px auto 24px;border-radius:0 0 15px 15px;background:#07101c}
+    .phone-top{display:flex;align-items:center;justify-content:space-between;color:#9db4c2;font-size:11px}
+    .mock-title{font-size:26px;font-weight:800;letter-spacing:-1px;margin:16px 0 6px}
+    .mock-sub{color:var(--muted);font-size:12px;margin-bottom:20px}
+    .mock-btn{padding:13px;text-align:center;border-radius:10px;background:var(--mint);color:#09202a;font-size:12px;font-weight:850}
+    .mini-heading{display:flex;align-items:center;justify-content:space-between;margin-top:24px;font-size:11px;letter-spacing:.7px;font-weight:800;color:#cbd9e2}
+    .network{border:1px solid #ffffff15;border-radius:13px;background:#172d43a8;padding:13px 12px;margin-top:10px}
+    .network .top{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:750}
+    .network .meta{font-size:10px;color:var(--muted);margin-top:6px}
+    .network.mark{border-color:#ffbf7373;background:#523c2633}
+    .flag{font-size:9px;color:var(--amber);border-radius:100px;padding:3px 8px;background:#85592b55}
+    .signal{display:flex;align-items:flex-end;gap:3px;height:15px}
+    .signal i{display:block;width:3px;background:var(--mint);border-radius:3px}
+    .signal i:nth-child(1){height:5px}.signal i:nth-child(2){height:8px}.signal i:nth-child(3){height:11px}.signal i:nth-child(4){height:15px}
+    .section{padding:46px 0}
+    .section-head{font-size:11px;font-weight:800;letter-spacing:1.6px;color:var(--mint);text-transform:uppercase;margin:0 0 12px}
+    h2{font-size:clamp(29px,3.5vw,40px);letter-spacing:-1.2px;line-height:1.15;margin:0 0 15px}
+    .section-intro{font-size:15px;max-width:690px;color:var(--muted);margin:0 0 28px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{border:1px solid #ffffff18;background:linear-gradient(160deg,#172a3d,#0b192a);padding:25px;border-radius:18px}
+    .card-icon{display:grid;place-items:center;border:1px solid #4c9e9466;width:42px;height:42px;border-radius:12px;background:#1c4645;color:var(--mint);font-size:21px}
+    .card h3{font-size:17px;margin:18px 0 8px}
+    .card p{font-size:13px;color:var(--muted);margin:0}
+    .panel{border:1px solid #ffffff1d;background:linear-gradient(145deg,#12253a,#0a1726);border-radius:21px;padding:26px}
+    .web-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+    .notice{background:#30291e;border:1px solid #806445;border-radius:12px;color:#ebd6af;padding:14px 16px;font-size:13px;margin:17px 0}
+    label{display:block;font-size:12px;font-weight:750;margin-top:13px;margin-bottom:6px;color:#d9e5ed}
+    input{width:100%;border:1px solid #3b5265;background:#0a1928;color:var(--text);outline:none;border-radius:10px;padding:13px 14px;font-size:14px}
+    input:focus{border-color:var(--mint)}
+    input::placeholder{color:#7d95a7}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .web-buttons{display:flex;gap:10px;margin-top:19px;flex-wrap:wrap}
+    .web-buttons .btn{font-size:12px;padding:10px 16px;min-height:44px}
+    .table-wrap{max-height:410px;overflow:auto}
+    table{border-collapse:collapse;width:100%;font-size:12px}
+    th,td{padding:12px 10px;border-bottom:1px solid #ffffff20;text-align:left;white-space:nowrap}
+    th{color:#90b7bf;font-size:10px;letter-spacing:.7px;text-transform:uppercase}
+    .empty{color:var(--muted);font-size:13px;padding:35px 0;text-align:center}
+    .count{font-size:12px;color:var(--muted);margin:10px 0}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:steps}
+    .step{border-top:1px solid #49616d;padding-top:17px}
+    .step-num{display:flex;align-items:center;justify-content:center;background:var(--mint);color:#0a1823;border-radius:50%;width:31px;height:31px;font-size:13px;font-weight:900}
+    .step h3{font-size:16px;margin:14px 0 8px}.step p{font-size:13px;color:var(--muted);margin:0}
+    .download-banner{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:27px;border:1px solid #49b6a866;border-radius:18px;background:radial-gradient(circle at 100% 0,#195f53,#102438 65%)}
+    .download-banner h3{font-size:22px;margin:0 0 7px}.download-banner p{margin:0;color:var(--muted);font-size:13px}
+    footer{margin-top:65px;border-top:1px solid #ffffff17;padding:26px 0 50px;display:flex;justify-content:space-between;color:#899aaa;gap:15px;font-size:12px;flex-wrap:wrap}
+    footer a{color:#b0dbd7}
+    .small{font-size:12px;color:var(--muted)}
+    .alert{min-height:24px;font-size:13px;color:var(--mint);margin-top:8px}
+    .muted-link{font-size:12px;color:var(--muted);text-decoration:underline}
+    @media(max-width:830px){.hero{grid-template-columns:1fr;gap:35px;padding:55px 0 35px}.phone-outer{width:100%;max-width:345px}.cards,.steps{grid-template-columns:1fr}.web-grid{grid-template-columns:1fr}nav{gap:10px}}
+    @media(max-width:500px){.wrap{padding:0 17px}header{padding:16px 0}nav a:first-child{display:none}h1{letter-spacing:-1.5px}.hero{padding:47px 0 25px}.phone{min-height:0}.panel{padding:17px}.form-row{grid-template-columns:1fr}.download-banner{flex-direction:column;align-items:stretch}.download-banner .btn{width:100%}.cards{gap:10px}.card{padding:18px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="brand" href="#home"><span class="brand-logo" aria-hidden="true">◉</span> SHIP RF AUDIT</a>
+  <nav><a href="#features">Features</a><a href="#web-logger">Web logger</a><a href="#install">Installation</a></nav>
+</header>
+<main>
+<section class="hero" id="home">
+  <div>
+    <div class="eyebrow"><span class="dot"></span> ANDROID APP + WEB TOOLS</div>
+    <h1>Find the signal.<br><span>Record the facts.</span></h1>
+    <p class="lede">A simple Wi-Fi survey tool for authorized shipboard IT checks. Scan nearby wireless networks on Android, save observations, and export a report.</p>
+    <div class="actions">
+      <a class="btn" href="https://raw.githubusercontent.com/danteaniceta-design/ShipRFAudit/main/downloads/ShipRFAudit.apk" download="ShipRFAudit.apk" id="download-primary">↓ Download Android App</a>
+      <a class="btn secondary" href="#web-logger">Use web logger ↗</a>
+    </div>
+    <div class="hero-foot">
+      <span><span class="tick">✓</span> Android 8+</span>
+      <span><span class="tick">✓</span> No account needed</span>
+      <span><span class="tick">✓</span> Local data storage</span>
+    </div>
+    <p class="small" style="margin-top:15px">If Chrome does not download the APK, use the <a href="https://github.com/danteaniceta-design/ShipRFAudit/releases/tag/v1.0.0">GitHub Releases alternative</a>.</p>
+  </div>
+  <div class="phone-outer" aria-label="Illustrative Android app interface">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="phone-top"><strong>Ship RF Audit</strong><span>DEMO PREVIEW</span></div>
+      <div class="mock-title">Nearby networks</div>
+      <div class="mock-sub">Example readings, not live Wi-Fi results.</div>
+      <div class="mock-btn">SCAN NEARBY WI-FI</div>
+      <div class="mini-heading"><span>DETECTED ACCESS POINTS</span><span>3 FOUND</span></div>
+      <div class="network mark"><div class="top"><span>STARLINK</span><span class="flag">NAME MATCH</span></div><div class="meta">-46 dBm · 5 GHz · Illustration only</div></div>
+      <div class="network"><div class="top"><span>Guest Wi-Fi</span><span class="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="meta">-58 dBm · 5 GHz · Illustration only</div></div>
+      <div class="network"><div class="top"><span>Unknown Network</span><span class="signal" aria-hidden="true"><i></i><i></i><i></i></span></div><div class="meta">-71 dBm · 2.4 GHz · Illustration only</div></div>
+      <div class="mock-sub" style="margin-top:16px">SSID name matching is not proof of device type or ownership.</div>
+    </div>
+  </div>
+</section>
+<section class="section" id="features">
+  <p class="section-head">CAPABILITIES</p>
+  <h2>Practical wireless observations</h2>
+  <p class="section-intro">The Android app reads nearby access points using Android's available Wi-Fi scan results. Use these findings as leads for your authorized IT investigation, not as proof against an individual.</p>
+  <div class="cards">
+    <article class="card"><div class="card-icon" aria-hidden="true">⌁</div><h3>Nearby Wi-Fi scanning</h3><p>View SSIDs, BSSIDs, channels, frequencies, and signal strength in dBm on your Android phone.</p></article>
+    <article class="card"><div class="card-icon" aria-hidden="true">⌕</div><h3>Starlink name matches</h3><p>Flags SSIDs containing “Starlink.” A renamed or disabled Wi-Fi network will not be reliably identified.</p></article>
+    <article class="card"><div class="card-icon" aria-hidden="true">≡</div><h3>Survey and export</h3><p>Record the survey deck or area, save local observations, and export a CSV report for review.</p></article>
+  </div>
+</section>
+<section class="section" id="web-logger">
+  <p class="section-head">BROWSER TOOL</p>
+  <h2>Record observations on the web</h2>
+  <p class="section-intro">Don't need to scan right now? This browser tool keeps manual survey notes on your device. No sign-in and no uploads.</p>
+  <div class="notice"><strong>Important:</strong> Websites cannot perform native nearby Wi-Fi scanning on Android browsers. To scan signals, download and open the Android APK above. The form below is for manual recordkeeping only.</div>
+  <div class="web-grid">
+    <div class="panel">
+      <form id="log-form">
+        <label for="area">Deck / survey area *</label>
+        <input id="area" name="area" required maxlength="120" placeholder="Example: Deck 4 corridor" autocomplete="off">
+        <div class="form-row">
+          <div><label for="ssid">Network name (SSID) *</label><input id="ssid" name="ssid" required maxlength="120" placeholder="Network name" autocomplete="off"></div>
+          <div><label for="rssi">Signal strength (dBm) *</label><input id="rssi" name="rssi" type="number" min="-120" max="0" required placeholder="-55"></div>
+        </div>
+        <label for="bssid">BSSID / MAC (optional)</label>
+        <input id="bssid" name="bssid" maxlength="60" placeholder="AA:BB:CC:DD:EE:FF" autocomplete="off">
+        <div class="web-buttons"><button class="btn" type="submit">+ Save observation</button><button class="btn secondary" type="button" id="csv">↓ Export CSV</button></div>
+        <div id="alert" class="alert" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><strong>Saved observations</strong><button id="clear" type="button" class="muted-link" style="background:none;border:none;cursor:pointer">Clear all</button></div>
+      <p class="count" id="count">0 observations stored on this device</p>
+      <div class="table-wrap"><table id="records" hidden><thead><tr><th>Time</th><th>Area</th><th>SSID</th><th>RSSI</th></tr></thead><tbody></tbody></table><div id="empty" class="empty">No observations yet.<br>Add a reading to begin your log.</div></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="install">
+  <p class="section-head">GET STARTED</p>
+  <h2>Install on Android in 3 steps</h2>
+  <p class="section-intro">If ChatGPT's file links won't open, use this website in Chrome and download directly from GitHub.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><h3>Download the APK</h3><p>Tap the green Download Android App button. If prompted, confirm the download in Chrome.</p></div>
+    <div class="step"><div class="step-num">2</div><h3>Find the file</h3><p>Open Files or My Files → Downloads and tap <strong>ShipRFAudit.apk</strong>.</p></div>
+    <div class="step"><div class="step-num">3</div><h3>Install and scan</h3><p>Install if your device policy permits, enable Wi-Fi and Location, grant scan permissions, then start a survey.</p></div>
+  </div>
+</section>
+<section class="section">
+  <div class="download-banner">
+    <div><h3>Ready for an onboard Wi-Fi survey?</h3><p>Download the Android APK, or use the web logger to take manual notes.</p></div>
+    <a class="btn" href="https://github.com/danteaniceta-design/ShipRFAudit/releases/download/v1.0.0/app-debug.apk">↓ Get the Android app</a>
+  </div>
+  <p class="small" style="margin-top:19px">Security note: This is a manually installed debug-signed APK, not a Google Play app. Install only if your device policies allow it. Neither the app nor the website can identify a crew member, see encrypted internet activity, or reliably identify a Starlink terminal when its Wi-Fi is off. Use findings only for approved ship IT/Security work.</p>
+</section>
+</main>
+<footer><span>© Ship RF Audit · For authorized network surveys</span><span><a href="https://github.com/danteaniceta-design/ShipRFAudit">View project on GitHub</a> · <a href="https://github.com/danteaniceta-design/ShipRFAudit/releases/tag/v1.0.0">APK backup link</a></span></footer>
+</div>
+<script>
+(function(){
+  "use strict";
+  const KEY="ship-rf-audit-manual-logs-v1";
+  const form=document.getElementById("log-form");
+  const body=document.querySelector("#records tbody"),records=document.getElementById("records"),empty=document.getElementById("empty"),count=document.getElementById("count"),alertBox=document.getElementById("alert");
+  function read(){try{const d=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(d)?d:[]}catch(e){return []}}
+  function write(d){try{localStorage.setItem(KEY,JSON.stringify(d));return true}catch(e){alertBox.textContent="Storage unavailable. Check private browsing or available storage.";return false}}
+  function show(){const data=read();body.textContent="";records.hidden=!data.length;empty.hidden=!!data.length;count.textContent=data.length+" observation"+(data.length===1?"":"s")+" stored on this device";data.slice().reverse().forEach(d=>{const tr=document.createElement("tr");[d.time,d.area,d.ssid,d.rssi+" dBm"].forEach(v=>{const td=document.createElement("td");td.textContent=String(v);tr.appendChild(td)});body.appendChild(tr)})}
+  function quote(s){return '"'+String(s==null?"":s).replace(/"/g,'""')+'"'}
+  form.addEventListener("submit",e=>{e.preventDefault();const area=form.area.value.trim(),ssid=form.ssid.value.trim(),rssi=Number(form.rssi.value),bssid=form.bssid.value.trim();if(!area||!ssid||!Number.isFinite(rssi)||rssi>0||rssi< -120){alertBox.textContent="Enter a valid area, SSID and signal strength.";return}const all=read();all.push({time:new Date().toLocaleString(),area,ssid,rssi,bssid,starlink_name_match:/starlink/i.test(ssid)});if(write(all)){alertBox.textContent="Observation saved locally.";form.ssid.value="";form.rssi.value="";form.bssid.value="";show()}});
+  document.getElementById("csv").addEventListener("click",()=>{const d=read();if(!d.length){alertBox.textContent="Save an observation first.";return}const hdr=["time","area","ssid","bssid","rssi","starlink_name_match"];const content=[hdr.join(","),...d.map(v=>hdr.map(k=>quote(v[k])).join(","))].join("\r\n");const b=new Blob([content],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(b),a=document.createElement("a");a.href=url;a.download="ShipRFAudit-Web-Observations.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);alertBox.textContent="CSV export prepared."});
+  document.getElementById("clear").addEventListener("click",()=>{if(confirm("Delete all saved browser observations on this device?")){write([]);show();alertBox.textContent="Saved observations cleared."}});
+  if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+  show();
+})();
+</script>
+</body>
+</html>
